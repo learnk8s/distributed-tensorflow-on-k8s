@@ -10,7 +10,7 @@ This repo will guide you through:
 1. deploying models in your cluster
 1. scaling your model using Distributed Tensorflow
 1. serving your model
-1. tuning your model using hyperparameter optimization
+1. tuning your model using hyperparameter optimisation
 
 ## Prerequisites
 
@@ -22,9 +22,9 @@ You should have the following tools installed:
 - python 2.7
 - pip
 - sed
-- account on dockerhub
-- account on GCP
-- gcloud
+- an account on Docker Hub
+- an account on GCP
+- Gcloud
 
 ## Recognising handwritten digits
 
@@ -149,7 +149,7 @@ You can create an NFS server with:
 kubectl create -f kube/nfs-minikube.yaml
 ```
 
-Make note of the IP of the service for the NFS server with:
+Make a note of the IP of the service for the NFS server with:
 
 ```bash
 kubectl get svc nfs-server
@@ -157,7 +157,7 @@ kubectl get svc nfs-server
 
 Replace `nfs-server.default.svc.cluster.local` with the ip address of the service in `kube/pvc-minikube.yaml`.
 
-The change is necessary since kube-dns is not configured correctly in the VM and the kubelet can't resolve the damin name.
+The change is necessary since kube-dns is not configured correctly in the VM and the kubelet can't resolve the domain name.
 
 Create the volume with:
 
@@ -262,7 +262,7 @@ kubectl create -f kube/job.yaml
 
 The job runs a single container and doesn't scale.
 
-However it is still more convenient than running it on your computer.
+However, it is still more convenient than running it on your computer.
 
 ## Scaling your model using Distributed Tensorflow
 
@@ -294,7 +294,7 @@ You can forward the traffic from the Pod on your cluster to your computer with:
 kubectl port-forward tensorboard-XX-ID-XX 8080:6006
 ```
 
-> Please note that you should probably use an Ingress manifest to permanently expose your service to the public.
+> Please note that you should probably use an Ingress manifest to expose your service to the public permanently.
 
 You can visit the dashboard at [http://localhost:8080](http://localhost:8080).
 
@@ -320,7 +320,7 @@ You can forward the traffic from the Tensorboard's Pod on your cluster to your c
 kubectl port-forward tf-serving-XX-ID-XX 8080:9000
 ```
 
-> Please note that you should probably use an Ingress manifest to permanently expose your service to the public.
+> Please note that you should probably use an Ingress manifest to expose your service to the public permanently.
 
 You can query the model using the client:
 
@@ -333,7 +333,7 @@ python client.py --host localhost --port 8080 --image ../data/4.png --signature_
 
 The model should recognise the digit 4.
 
-## Tuning your model using hyperparameter optimization
+## Tuning your model using hyperparameter optimisation
 
 The model can be tuned with the following parameters:
 
@@ -342,7 +342,7 @@ The model can be tuned with the following parameters:
 
 You could submit a set of jobs to investigate the different combinations of parameters.
 
-The `templated` folder contains a `tf-templated.yaml` specification with placeholders for the arguments.
+The `templated` folder contains a `tf-templated.yaml` file with placeholders for the variables.
 
 The `run.sh` script interpolated the values and submit the TFJobs to the cluster.
 
@@ -366,4 +366,3 @@ You can follow the progress of the training in real-time at [http://localhost:80
 You should probably expose your services such as Tensorboard and Tensorflow Serving with an ingress manifest rather than using the port forwarding functionality in `kube-proxy`.
 
 The NFS volume is running on a single instance and isn't highly available. Having a single node for your storage may work if you run small workloads, but you should probably investigate [Ceph](http://docs.ceph.com/docs/mimic/cephfs/), [GlusterFS](https://www.gluster.org/) or [rook.io](https://rook.io) as a way to manage distributed storage.
-

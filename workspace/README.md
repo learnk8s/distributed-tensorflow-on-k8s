@@ -1,6 +1,6 @@
 # On demand workspaces
 
-You can create a temporary workspace with a NFS volume with:
+You can create a temporary workspace with an NFS volume with:
 
 ```bash
 ./create.sh
@@ -14,3 +14,4 @@ You should also have the following tools installed:
 
 - kubectl
 - jq
+

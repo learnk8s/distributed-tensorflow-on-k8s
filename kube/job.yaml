@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job1
+spec:
+  template:
+    metadata:
+      name: job1
+    spec:
+      containers:
+      - name: tensorflow
+        image: learnk8s/mnist:1.0.0
+        imagePullPolicy: IfNotPresent
+      restartPolicy: OnFailure

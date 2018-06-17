@@ -1,0 +1,52 @@
+apiVersion: kubeflow.org/v1alpha1
+kind: TFJob
+metadata:
+  name: tfjob1
+spec:
+  replicaSpecs:
+    - replicas: 1
+      tfReplicaType: MASTER
+      template:
+        spec:
+          volumes:
+            - name: nfs-volume
+              persistentVolumeClaim:
+                claimName: nfs
+          containers:
+            - name: tensorflow
+              image: learnk8s/mnist:1.0.0
+              imagePullPolicy: IfNotPresent
+              args:
+                - --model_dir
+                - ./out/vars
+                - --export_dir
+                - ./out/models
+              volumeMounts:
+                - mountPath: /app/out
+                  name: nfs-volume
+          restartPolicy: OnFailure
+    - replicas: 2
+      tfReplicaType: WORKER
+      template:
+        spec:
+          containers:
+            - name: tensorflow
+              image: learnk8s/mnist:1.0.0
+              imagePullPolicy: IfNotPresent
+          restartPolicy: OnFailure
+    - replicas: 1
+      tfReplicaType: PS
+      template:
+        spec:
+          volumes:
+            - name: nfs-volume
+              persistentVolumeClaim:
+                claimName: nfs
+          containers:
+            - name: tensorflow
+              image: learnk8s/mnist:1.0.0
+              imagePullPolicy: IfNotPresent
+              volumeMounts:
+                - mountPath: /app/out
+                  name: nfs-volume
+          restartPolicy: OnFailure

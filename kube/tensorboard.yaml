@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: tensorboard
+  name: tensorboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tensorboard
+  template:
+    metadata:
+      labels:
+        app: tensorboard
+    spec:
+      volumes:
+        - name: nfs-volume
+          persistentVolumeClaim:
+            claimName: nfs
+      containers:
+      - name: tensorboard
+        image: tensorflow/tensorflow:1.8.0
+        imagePullPolicy: IfNotPresent
+        command:
+         - /usr/local/bin/tensorboard
+        args:
+        - --logdir
+        - /tmp/tensorflow
+        volumeMounts:
+          - mountPath: /tmp/tensorflow
+            name: nfs-volume
+        ports:
+        - containerPort: 6006
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tensorboard
+spec:
+  ports:
+  - port: 6006
+    targetPort: 6006
+  selector:
+    app: tensorboard

@@ -36,6 +36,15 @@ It also includes labels for each image, telling us which digit it is. For exampl
 
 In this tutorial, you're going to train a model to look at images and predict what digits they are.
 
+## Writing scalable Tensorflow
+
+If you plan to train your model using distributed Tensorflow you should be aware of:
+
+- you should use the [Estimator API](https://medium.com/@yuu.ishikawa/serving-pre-modeled-and-custom-tensorflow-estimator-with-tensorflow-serving-12833b4be421) where possible.
+- distribute Tensorflow works only with [tf.estimator.train_and_evaluate](https://www.tensorflow.org/api_docs/python/tf/estimator/train_and_evaluate). If you use the method [train](https://www.tensorflow.org/api_docs/python/tf/estimator/Estimator#train) and [evaluate](https://www.tensorflow.org/api_docs/python/tf/estimator/Estimator#train) it won't work.
+- you should save your model with [export_savedmodel](https://www.tensorflow.org/api_docs/python/tf/estimator/Estimator#export_savedmodel) so that Tensorflow serving can serve them
+- you should use use [tf.estimator.RunConfig](https://www.tensorflow.org/api_docs/python/tf/estimator/RunConfig) to read the configuration from the environment. The Tensorflow operator in Kubedflow automatically populated the environment variables that are consumed by that class.
+
 ## Setting up a local environment
 
 You can create a virtual environment for python with:
@@ -366,3 +375,5 @@ You can follow the progress of the training in real-time at [http://localhost:80
 You should probably expose your services such as Tensorboard and Tensorflow Serving with an ingress manifest rather than using the port forwarding functionality in `kube-proxy`.
 
 The NFS volume is running on a single instance and isn't highly available. Having a single node for your storage may work if you run small workloads, but you should probably investigate [Ceph](http://docs.ceph.com/docs/mimic/cephfs/), [GlusterFS](https://www.gluster.org/) or [rook.io](https://rook.io) as a way to manage distributed storage.
+
+You should consider using [Helm](https://helm.sh/) instead of crafting your own scripts to interpolate yaml files.

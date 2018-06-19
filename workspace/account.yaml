@@ -13,10 +13,10 @@ metadata:
 spec:
   limits:
   - default:
-      cpu: "100m"
+      cpu: "500m"
       memory: 2Gi
     defaultRequest:
-      cpu: "50m"
+      cpu: "200m"
       memory: 1Gi
     type: Container
 ---
@@ -38,8 +38,8 @@ metadata:
   namespace: %NAMESPACE%
   name: kubeflow-demo
 rules:
-- apiGroups: ["", "kubeflow.org"] # "" indicates the core API group
-  resources: ["pods", "tfjobs", "deployments", "replicasets", "pvs", "pvcs", "configmaps", "services"]
+- apiGroups: ["", "kubeflow.org", "extensions", "batch"] # "" indicates the core API group
+  resources: ["pods", "pods/log", "tfjobs", "deployments", "replicasets", "pvs", "pvcs", "configmaps", "services", "jobs"]
   verbs: ["get", "list", "update", "watch", "create", "delete"]
 ---
 kind: RoleBinding

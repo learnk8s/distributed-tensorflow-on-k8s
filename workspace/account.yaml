@@ -39,7 +39,7 @@ metadata:
   name: kubeflow-demo
 rules:
 - apiGroups: ["", "kubeflow.org", "extensions", "batch"] # "" indicates the core API group
-  resources: ["pods", "pods/log", "tfjobs", "deployments", "replicasets", "pvs", "pvcs", "configmaps", "services", "jobs"]
+  resources: ["pods", "pods/log", "pods/portforward", "tfjobs", "deployments", "replicasets", "pvs", "pvcs", "configmaps", "services", "jobs"]
   verbs: ["get", "list", "update", "watch", "create", "delete"]
 ---
 kind: RoleBinding

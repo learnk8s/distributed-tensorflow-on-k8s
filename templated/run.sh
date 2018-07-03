@@ -1,6 +1,6 @@
 #!/bin/bash
 
-declare -a hidden_layers=(1 2 3 4)
+declare -a hidden_layers=(1 2 3)
 declare -a learning_rates=("0.1" "0.01" "0.001")
 
 for learning_rate_index in "${!learning_rates[@]}"

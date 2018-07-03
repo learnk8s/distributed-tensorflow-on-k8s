@@ -13,7 +13,7 @@ metadata:
 spec:
   limits:
   - default:
-      cpu: "500m"
+      cpu: "600m"
       memory: 2Gi
     defaultRequest:
       cpu: "200m"
@@ -28,7 +28,7 @@ metadata:
 spec:
   hard:
     pods: "100"
-    limits.cpu: "3"
+    limits.cpu: "23"
     limits.memory: 90Gi
     persistentvolumeclaims: "2"
 ---
